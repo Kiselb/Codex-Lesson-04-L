@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { createClient } = require('@libsql/client');
-const { DEFAULT_MEMORY, hashPassword, verifyPassword } = require('./store');
+const { DEFAULT_MEMORY, hashPassword, verifyPassword } = require('./user-utils');
 
 class LibsqlUserStore {
   constructor({ url, authToken }) {

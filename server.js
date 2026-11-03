@@ -2,7 +2,6 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 require('dotenv').config({ path: path.join(__dirname, '.env'), quiet: true });
-const { SqliteUserStore } = require('./src/store');
 const { extractPreferences } = require('./src/agent');
 const { generateReply } = require('./src/llm');
 const { issueToken, verifyToken } = require('./src/auth');
@@ -82,7 +81,7 @@ function createRequestHandler({ store, authSecret = process.env.AUTH_SECRET || '
       }
       if (req.method === 'GET' && pathname === '/api/me') {
         const session = await requireAuth(req, res); if (!session) return;
-        return json(res, 200, { user: store.publicUserRow(await store.findById(session.userId)), dialogId: session.dialogId });
+        return json(res, 200, { user: await store.publicUserRow(await store.findById(session.userId)), dialogId: session.dialogId });
       }
       if (req.method === 'PATCH' && pathname === '/api/me/memory') {
         const session = await requireAuth(req, res); if (!session) return;
@@ -144,6 +143,9 @@ function createRequestHandler({ store, authSecret = process.env.AUTH_SECRET || '
 }
 
 function createApp({ databaseFile = DATABASE_FILE, seedDefaults = true, authSecret } = {}) {
+  // Локальный SQLite загружается только при обычном локальном запуске. Vercel
+  // использует libSQL/Turso и не должен импортировать node:sqlite при старте функции.
+  const { SqliteUserStore } = require('./src/store');
   const store = new SqliteUserStore(databaseFile);
   if (seedDefaults) store.seedDefaults();
   const handler = createRequestHandler({ store, authSecret, serveFiles: true });

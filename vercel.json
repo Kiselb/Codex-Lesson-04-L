@@ -5,7 +5,7 @@
   "functions": {
     "api/[...route].js": {
       "maxDuration": 30,
-      "includeFiles": "knowledge/company.txt"
+      "includeFiles": "{knowledge/company.txt,database/schema.sql}"
     }
   }
 }

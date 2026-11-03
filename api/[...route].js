@@ -19,6 +19,11 @@ async function getHandler() {
 
 module.exports = async function vercelHandler(req, res) {
   try {
+    if (req.method === 'GET' && new URL(req.url, 'https://vercel.local').pathname === '/api/health') {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      return res.end(JSON.stringify({ ok: true, runtime: process.version }));
+    }
     const handler = await getHandler();
     return handler(req, res);
   } catch (error) {
