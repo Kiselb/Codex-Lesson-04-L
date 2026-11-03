@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI-консультант компании Шальные Шнурки">
+  <title>Шальные Шнурки — AI-консультант</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="brand-bar">
+    <a class="brand" href="#" aria-label="Шальные Шнурки">
+      <svg class="logo" viewBox="0 0 96 96" role="img" aria-label="Эмблема: две шальные петли шнурка">
+        <path d="M18 62C4 48 15 27 34 34c15 6 17 36 32 29 16-8 11-34-8-34-16 0-20 27-8 39 9 9 22 5 28-3" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="17" cy="63" r="6" fill="#ff4d1c"/><circle cx="80" cy="64" r="6" fill="#ff4d1c"/>
+      </svg>
+      <span><strong>Шальные<br>Шнурки</strong><small>Свяжем стиль с характером</small></span>
+    </a>
+    <div id="user-chip" class="user-chip hidden"><span id="user-name"></span><button id="logout" class="link-btn">Выйти</button></div>
+  </header>
+
+  <main>
+    <section id="auth-view" class="auth-layout">
+      <div class="hero-copy">
+        <p class="eyebrow">50+ лет шнурочных решений</p>
+        <h1>Ваш стиль.<br><em>До последней петли.</em></h1>
+        <p class="lead">Умный консультант запомнит ваши предпочтения, подберёт решение и не заставит повторяться.</p>
+        <div class="benefits"><span>48 ч доставка</span><span>до 10 лет гарантии</span><span>любой дизайн</span></div>
+      </div>
+      <form id="auth-form" class="auth-card">
+        <div class="tabs" role="tablist"><button type="button" class="tab active" data-mode="login">Вход</button><button type="button" class="tab" data-mode="register">Регистрация</button></div>
+        <h2 id="auth-title">Рады снова видеть</h2>
+        <label>Логин<input id="username" autocomplete="username" minlength="3" required placeholder="Ваш логин"></label>
+        <label>Пароль<input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="Не менее 6 символов"></label>
+        <p id="auth-error" class="error" aria-live="polite"></p>
+        <button class="primary" type="submit"><span id="auth-action">Войти</span><b>→</b></button>
+        <p class="demo-note">Демо администратора: <code>admin</code> / <code>admin123</code></p>
+      </form>
+    </section>
+
+    <section id="app-view" class="app-shell hidden">
+      <aside class="sidebar">
+        <div><p class="eyebrow">Личный профиль</p><h2 id="greeting">Добрый день!</h2><p class="muted">Я помню детали, которые помогают делать рекомендации точнее.</p></div>
+        <nav><button class="nav-item active" data-panel="chat">◌ <span>Консультант</span></button><button class="nav-item" data-panel="memory">◇ <span>Мои данные</span></button><button id="admin-nav" class="nav-item hidden" data-panel="admin">⌘ <span>Пользователи</span></button></nav>
+        <div class="trust"><strong>Данные под защитой</strong><p>Каждый клиент видит только свой профиль.</p></div>
+      </aside>
+
+      <section id="chat-panel" class="panel chat-panel">
+        <div class="panel-head"><div><p class="status"><i></i> консультант на связи</p><h2>Подберём идеальную пару</h2></div><button id="clear-chat" class="icon-btn" title="Очистить видимый диалог">↻</button></div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <div id="quick-actions" class="quick-actions"><button>Подобрать из каталога</button><button>Хочу на заказ</button><button>Нужен ремонт</button></div>
+        <form id="chat-form" class="composer"><textarea id="message" rows="1" maxlength="1000" placeholder="Напишите, какие шнурки вы ищете…" required></textarea><button type="submit" aria-label="Отправить">↑</button></form>
+      </section>
+
+      <section id="memory-panel" class="panel hidden">
+        <div class="panel-head"><div><p class="eyebrow">Долгосрочная память · SQLite</p><h2>Что я о вас помню</h2><p class="muted">Сведения сохраняются в SQL-базе. Их можно изменить, удалить по одному или очистить полностью.</p></div></div>
+        <form id="memory-form" class="memory-grid"></form>
+      </section>
+
+      <section id="admin-panel" class="panel hidden">
+        <div class="panel-head"><div><p class="eyebrow">Панель администратора</p><h2>Пользователи и предпочтения</h2><p class="muted">Просмотр и редактирование сохранённой памяти клиентов.</p></div></div>
+        <div id="users-table" class="users-list"></div>
+      </section>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

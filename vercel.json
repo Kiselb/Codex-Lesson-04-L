@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": null,
+  "outputDirectory": "public",
+  "functions": {
+    "api/[...route].js": {
+      "maxDuration": 30,
+      "includeFiles": "knowledge/company.txt"
+    }
+  }
+}
