@@ -1,6 +1,7 @@
 const path = require('node:path');
 const { DatabaseSync } = require('node:sqlite');
 const { LibsqlUserStore } = require('../src/libsql-store');
+const { tursoConfig } = require('../src/turso-config');
 
 const sourceFile = process.env.DATABASE_FILE || path.join(__dirname, '..', 'data', 'laces.sqlite');
 
@@ -12,9 +13,10 @@ async function batches(client, statements, size = 50) {
 }
 
 async function main() {
-  if (!process.env.TURSO_DATABASE_URL) throw new Error('Задайте TURSO_DATABASE_URL');
+  const config = tursoConfig();
+  if (!config.url) throw new Error('Задайте KISELB_TURSO_DATABASE_URL');
   const local = new DatabaseSync(sourceFile, { readOnly: true });
-  const remote = new LibsqlUserStore({ url: process.env.TURSO_DATABASE_URL, authToken: process.env.TURSO_AUTH_TOKEN });
+  const remote = new LibsqlUserStore(config);
   await remote.init();
 
   const users = local.prepare('SELECT * FROM users ORDER BY created_at').all();

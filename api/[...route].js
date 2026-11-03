@@ -1,5 +1,6 @@
 const { createRequestHandler } = require('../server');
 const { LibsqlUserStore } = require('../src/libsql-store');
+const { tursoConfig } = require('../src/turso-config');
 
 let handlerPromise;
 
@@ -7,7 +8,7 @@ async function getHandler() {
   if (!handlerPromise) {
     handlerPromise = (async () => {
       if (!process.env.AUTH_SECRET) throw new Error('Не задана переменная AUTH_SECRET');
-      const store = new LibsqlUserStore({ url: process.env.TURSO_DATABASE_URL, authToken: process.env.TURSO_AUTH_TOKEN });
+      const store = new LibsqlUserStore(tursoConfig());
       await store.init();
       await store.seedFromEnvironment();
       return createRequestHandler({ store, authSecret: process.env.AUTH_SECRET, serveFiles: false });

@@ -37,8 +37,8 @@
 
 | Переменная | Значение |
 |---|---|
-| `TURSO_DATABASE_URL` | URL базы Turso |
-| `TURSO_AUTH_TOKEN` | токен базы Turso |
+| `KISELB_TURSO_DATABASE_URL` | URL базы Turso |
+| `KISELB_TURSO_AUTH_TOKEN` | токен базы Turso |
 | `AUTH_SECRET` | длинная случайная строка для подписи авторизации |
 | `ADMIN_USERNAME` | логин администратора, например `admin` |
 | `ADMIN_PASSWORD` | сложный первоначальный пароль администратора |
@@ -71,8 +71,8 @@
 Если нужно перенести текущих пользователей, факты, диалоги и сообщения из `data/laces.sqlite`, задайте переменные в локальном PowerShell:
 
 ```powershell
-$env:TURSO_DATABASE_URL = 'libsql://...turso.io'
-$env:TURSO_AUTH_TOKEN = 'ваш-токен'
+$env:KISELB_TURSO_DATABASE_URL = 'libsql://...turso.io'
+$env:KISELB_TURSO_AUTH_TOKEN = 'ваш-токен'
 .\migrate-turso.ps1
 ```
 
@@ -102,10 +102,11 @@ $env:TURSO_AUTH_TOKEN = 'ваш-токен'
 ## 9. Важные замечания
 
 - Смена `AUTH_SECRET` завершит все существующие пользовательские сессии.
-- `TURSO_AUTH_TOKEN` и `ADMIN_PASSWORD` нельзя добавлять в Git.
+- `KISELB_TURSO_AUTH_TOKEN` и `ADMIN_PASSWORD` нельзя добавлять в Git.
 - `PROXY_API_API_KEY` также нельзя добавлять в Git или клиентский JavaScript: он используется только внутри серверной функции.
 - Для Production и Preview лучше использовать разные базы и токены.
 - Локальная команда `.\start.ps1` продолжает работать без Turso.
 - Файл `knowledge/company.txt` принудительно включён в серверную функцию через `includeFiles` в `vercel.json`.
+- Для обратной совместимости код также понимает прежние имена `TURSO_DATABASE_URL` и `TURSO_AUTH_TOKEN`, но при наличии обоих вариантов использует значения с префиксом `KISELB_`.
 
 Официальные материалы: [Vercel Functions](https://vercel.com/docs/functions), [настройка сборки](https://vercel.com/docs/builds/configure-a-build), [Vercel Marketplace Storage](https://vercel.com/docs/marketplace-storage), [Turso JavaScript SDK](https://docs.turso.tech/sdk/ts/quickstart).

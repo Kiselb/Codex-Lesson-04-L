@@ -6,7 +6,7 @@ const { DEFAULT_MEMORY, hashPassword, verifyPassword } = require('./store');
 
 class LibsqlUserStore {
   constructor({ url, authToken }) {
-    if (!url) throw new Error('Не задана переменная TURSO_DATABASE_URL');
+    if (!url) throw new Error('Не задан URL базы Turso');
     this.client = createClient({ url, authToken });
   }
 
